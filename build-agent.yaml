@@ -13,8 +13,8 @@ spec:
       volumeMounts:
         - name: m2
           mountPath: /root/.m2/
-    - name: docker-cmds
-      image: docker:stable-git
+    - name: docker-tools
+      image: rmkanda/docker-tools:latest
       command:
         - cat
       tty: true
@@ -33,14 +33,19 @@ spec:
       command:
         - cat
       tty: true
-    - name: dockle
-      image: rmkanda/dockle
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:v1.6.0-debug
+      imagePullPolicy: Always
+      env:
+        - name: container
+          value: docker
       command:
-        - cat
-      tty: true
+        - sleep
+      args:
+        - 99d
       volumeMounts:
-        - mountPath: /var/run
-          name: docker-sock
+        - name: jenkins-docker-cfg
+          mountPath: /kaniko/.docker
   volumes:
     - name: m2
       hostPath:
@@ -51,3 +56,11 @@ spec:
     - name: trivycache
       hostPath:
         path: /tmp/trivycache/
+    - name: jenkins-docker-cfg
+      projected:
+        sources:
+          - secret:
+            name: regcred
+            items:
+              - key: .dockerconfigjson
+                path: config.json
