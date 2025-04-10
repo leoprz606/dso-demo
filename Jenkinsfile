@@ -48,6 +48,7 @@ pipeline {
                 cat /kaniko/.docker/config.json  # Debug credentials
                 /kaniko/executor \
                   --dockerfile Dockerfile \
+                  --context /home/jenkins/agent/workspace/dso-demo_main \
                   --insecure \
                   --skip-tls-verify \
                   --cache=true \
