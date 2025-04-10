@@ -38,14 +38,20 @@ pipeline {
             }
           }
         }
-        stage('OCI Image BnP') {
-          steps {
-            c ontainer('kaniko') {
-              sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure
-              --skip-tls-verify --cache=true --destination=docker.io/leodocker0808/dso-demo'
-            }
-          }
+    stage('OCI Image BnP') {
+      steps {
+        container('kaniko') {
+          sh '
+            /kaniko/executor -f $(/bin/pwd)/Dockerfile \
+              -c $(/bin/pwd) \
+              --insecure \
+              --skip-tls-verify \
+              --cache=true \
+              --destination=docker.io/leodocker0808/dso-demo
+          '
         }
+      }
+    }
       }
     }
     stage('Deploy to Dev') {
