@@ -41,7 +41,11 @@ pipeline {
     stage('OCI Image BnP') {
       steps {
         container('kaniko') {
+<<<<<<< HEAD
           sh '/kaniko/executor -f /Dockerfile -c --insecure --skip-tls-verify --cache=true --destination=docker.io/leodocker0808/dso-demo'
+=======
+          sh '/kaniko/executor -f Dockerfile -c --insecure --skip-tls-verify --cache=true --destination=docker.io/leodocker0808/dso-demo'
+>>>>>>> 0afba65 (bebug)
         }
       }
     }
