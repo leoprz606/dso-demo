@@ -32,28 +32,24 @@ pipeline {
     stage('Package') {
       steps {
         stage('Create Jarfile') {
-          steps {
-            container('maven') {
-              sh 'mvn package -DskipTests'
-              sh 'ls -l target'  // Debug JAR creation
-            }
+          container('maven') {
+            sh 'mvn package -DskipTests'
+            sh 'ls -l target'  // Debug JAR creation
           }
         }
         stage('OCI Image BnP') {
-          steps {
-            container('kaniko') {
-              sh '''
-                ls -l /home/jenkins/agent/workspace/dso-demo_main  # Debug workspace
-                ls -l /home/jenkins/agent/workspace/dso-demo_main/target  # Debug target dir
-                cat /kaniko/.docker/config.json  # Debug credentials
-                /kaniko/executor \
-                  --dockerfile Dockerfile \
-                  --insecure \
-                  --skip-tls-verify \
-                  --cache=true \
-                  --destination=docker.io/leodocker0808/dso-demo
-              '''
-            }
+          container('kaniko') {
+            sh '''
+              ls -l /home/jenkins/agent/workspace/dso-demo_main  # Debug workspace
+              ls -l /home/jenkins/agent/workspace/dso-demo_main/target  # Debug target dir
+              cat /kaniko/.docker/config.json  # Debug credentials
+              /kaniko/executor \
+                --dockerfile Dockerfile \
+                --insecure \
+                --skip-tls-verify \
+                --cache=true \
+                --destination=docker.io/leodocker0808/dso-demo
+            '''
           }
         }
       }
