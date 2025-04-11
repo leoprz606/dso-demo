@@ -1,0 +1,1 @@
+sudo -i docker run --rm -v $(pwd):/app maven mvn org.owasp:dependency-check-maven:check -f /app/pom.xml
