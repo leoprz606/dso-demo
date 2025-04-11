@@ -37,10 +37,10 @@ pipeline {
           }
           post{
             always{
-              archiveArtifactsallowEmptyArchive:true,
+              archiveArtifactsallowEmptyArchive: true,
               artifacts:'target/dependency-check-report.html',
-              fingerprint:true,
-              onlyIfSuccessful:true//dependencyCheckPublisherpattern:'report.xml'
+              fingerprint: true,
+              onlyIfSuccessful: true//dependencyCheckPublisherpattern:'report.xml'
             }
           }
         }
