@@ -49,12 +49,14 @@ pipeline {
             }
           }
           post {
-            success {
-              dependencyTrackPublisher projectName: 'sample-spring-app',
-              projectVersion: '0.0.1', artifact: 'target/bom.xml', autoCreateProjects:
-              true, synchronous: true
-              archiveArtifacts allowEmptyArchive: true, artifacts:
-              'target/bom.xml', fingerprint: true, onlyIfSuccessful: false
+            always {
+              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                dependencyTrackPublisher projectName: 'sample-spring-app',
+                projectVersion: '0.0.1', artifact: 'target/bom.xml', autoCreateProjects:
+                true, synchronous: true
+                archiveArtifacts allowEmptyArchive: true, artifacts:
+                'target/bom.xml', fingerprint: true, onlyIfSuccessful: false
+              }
             }
           }
         }
