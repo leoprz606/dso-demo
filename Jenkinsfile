@@ -40,7 +40,7 @@ pipeline {
             }
           }
         }
-        stage('Generate SBOM') {
+        stage('SBOM: Software Bill of Materials') {
           steps {
             container('maven') {
               catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -50,17 +50,15 @@ pipeline {
           }
           post {
             always {
-              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                dependencyTrackPublisher projectName: 'sample-spring-app',
-                projectVersion: '0.0.1', artifact: 'target/bom.xml', autoCreateProjects:
-                true, synchronous: true
-                archiveArtifacts allowEmptyArchive: true, artifacts:
-                'target/bom.xml', fingerprint: true, onlyIfSuccessful: false
-              }
+              dependencyTrackPublisher projectName: 'sample-spring-app',
+              projectVersion: '0.0.1', artifact: 'target/bom.xml', autoCreateProjects:
+              true, synchronous: true
+              archiveArtifacts allowEmptyArchive: true, artifacts:
+              'target/bom.xml', fingerprint: true, onlyIfSuccessful: false
             }
           }
         }
-        stage('SCA'){
+        stage('SCA: Software Composition Analysis'){
           steps{
             container('maven'){
               catchError(buildResult:'SUCCESS',stageResult:'FAILURE'){
@@ -79,7 +77,7 @@ pipeline {
         }
       }
     }
-    stage('SAST') {
+    stage('SAST: Static Application Security Testing') {
       steps {
         container('slscan') {
         sh 'scan --type java,depscan --build'
