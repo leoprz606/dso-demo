@@ -60,7 +60,6 @@
 				<artifactId>spotbugs-maven-plugin</artifactId>
 				<version>4.2.0</version>
 				<configuration>
-					<failBuildOnCVSS>10</failBuildOnCVSS>
 					<effort>Max</effort>
 					<threshold>Low</threshold>
 					<failOnError>true</failOnError>

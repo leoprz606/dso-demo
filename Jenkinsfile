@@ -49,7 +49,11 @@ pipeline {
             }
           }
           post {
+<<<<<<< HEAD
             always {
+=======
+            success {
+>>>>>>> parent of 6895f90 (catch error)
               dependencyTrackPublisher projectName: 'sample-spring-app',
               projectVersion: '0.0.1', artifact: 'target/bom.xml', autoCreateProjects:
               true, synchronous: true
